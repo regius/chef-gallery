@@ -1,4 +1,5 @@
-<VirtualHost *:80>
+<% node['apache']['listen_ports'].each do |port| %>
+<VirtualHost *:<%= port %>>
   ServerAdmin	<%= node['gallery']['adminemail'] %>
   ServerName    <%= node['gallery']['wwwname'] %>
   ServerAlias	<%= node[:fqdn] %>
@@ -34,6 +35,7 @@
   ErrorLog <%= node['apache']['log_dir'] %>/gallery_error.log
   CustomLog <%= node['apache']['log_dir'] %>/gallery_access.log combined
 </VirtualHost>
+<% end -%>
 
 <% if node['gallery']['apachessl'] -%>
 <VirtualHost *:443>
@@ -73,3 +75,4 @@
   CustomLog <%= node['apache']['log_dir'] %>/gallery_access.log combined
 </VirtualHost>
 <% end -%>
+
